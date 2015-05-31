@@ -33,7 +33,8 @@ from supybot.commands import *
 import supybot.plugins as plugins
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
-import json, requests
+import json
+import requests
 
 try:
     from supybot.i18n import PluginInternationalization
@@ -45,6 +46,7 @@ except ImportError:
 
 
 class RealRaum(callbacks.Plugin):
+
     """realraum related IRC stuff"""
     threaded = True
 
@@ -54,37 +56,38 @@ class RealRaum(callbacks.Plugin):
 
     def roomstatus(self, irc, msg, args):
         """takes no arguments
-        
+
         Grap the roomstatus from the space-api and display it.
         """
         resp = requests.get(url="http://realraum.at/status.json")
         data = json.loads(resp.text)
- 
- 
-        status     = str(data['state']['message'])
+
+        status = str(data['state']['message'])
         lastChange = data['state']['lastchange']
 
         irc.reply(status)
     roomstatus = wrap(roomstatus)
 
-
     def food(self, irc, msg, args, url):
         """[mjam url]
-        
+
         Lets food happen (maybe).
         """
 
         sender = irc.nick
 
-        text  = "Hi,\n\n" + sender + "at realraum wants some food! Wanna join in?\n\n"
-        text += "If so, check #realrauim @ OFTC"	
+        text = "Hi,\n\n" + sender + \
+            "at realraum wants some food! Wanna join in?\n\n"
+        text += "If so, check #realrauim @ OFTC"
 
-	if url is None:
+        if url is None:
             url = ""
-            irc.reply("let food happen! (please give people some time to reply ...)", prefixNick=False)
+            irc.reply(
+                "let food happen! (please give people some time to reply ...)", prefixNick=False)
         else:
             text += ",\nor this link:" + url
-            irc.reply("thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
+            irc.reply(
+                "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
             url = " ---> " + url
 
         persons = ""
@@ -92,14 +95,12 @@ class RealRaum(callbacks.Plugin):
             if p != sender:
                 persons += p + ", "
 
-	irc.reply("Yo " + persons + "want some food?" + url, prefixNick=False)
+        irc.reply("Yo " + persons + "want some food?" + url, prefixNick=False)
 
-	text += " ...\n\nCheers, \nr3bot"
+        text += " ...\n\nCheers, \nr3bot"
         print text
 
     food = wrap(food, [optional('httpUrl')])
-
-
 
     def tschunk(self, irc, msg, args):
         """takes no arguments
