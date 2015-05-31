@@ -89,7 +89,8 @@ class RealRaum(callbacks.Plugin):
 
         persons = ""
         for p in self.registryValue('food.listeners'):
-            persons += p + ", "
+            if p != sender:
+                persons += p + ", "
 
 	irc.reply("Yo " + persons + "want some food?" + url, prefixNick=False)
 
