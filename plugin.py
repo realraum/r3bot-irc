@@ -116,9 +116,8 @@ class RealRaum(callbacks.Plugin):
         Tell me!
         """
         irc.reply("NO! :( *sadPandaIsSad*", prefixNick=False)
-    
-    ispetertheonealreadyrealraummember = wrap(isPeterTheOneAlreadyRealraumMember)
 
+    ispetertheonealreadyrealraummember = wrap(isPeterTheOneAlreadyRealraumMember)
 
     def sender(self, irc, msg, args):
         """takes no arguments
