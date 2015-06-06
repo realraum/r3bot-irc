@@ -110,6 +110,16 @@ class RealRaum(callbacks.Plugin):
         irc.reply("Yo nicoo, let tschunk happen! :)", prefixNick=False)
     tschunk = wrap(tschunk)
 
+    def isPeterTheOneAlreadyRealraumMember(self, irc, msg, args):
+        """takes no arguments
+
+        Tell me!
+        """
+        irc.reply("NO! :( *sadPandaIsSad*", prefixNick=False)
+    
+    ispetertheonealreadyrealraummember = wrap(isPeterTheOneAlreadyRealraumMember)
+
+
     def sender(self, irc, msg, args):
         """takes no arguments
 
