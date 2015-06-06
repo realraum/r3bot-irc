@@ -34,5 +34,23 @@ from supybot.test import *
 class RealRaumTestCase(PluginTestCase):
     plugins = ('RealRaum',)
 
+    def testRoomstatus1(self):
+        self.assertNotError('roomstatus')
+
+    def testFood1(self):
+        self.assertNotError('food')
+
+    def testTschunk1(self):
+        self.assertNotError('tschunk')
+
+    def testIsPeter(self):
+        self.assertNotError('ispetertheonealreadyrealraummember')
+
+    def testSender1(self):
+        self.assertNotError('sender')
+
+    def testSender2(self):
+        self.assertError('sender me')
+
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
