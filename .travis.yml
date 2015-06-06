@@ -14,7 +14,7 @@ python:
 install:
   - sudo pip install -r https://raw.githubusercontent.com/ProgVal/Limnoria/master/requirements.txt --upgrade
   - sudo pip install git+https://github.com/ProgVal/Limnoria.git@master --upgrade
-   # - pip install -vr requirements.txt
+  - pip install requests
 
 # command to run tests, e.g. python setup.py test
 script:
