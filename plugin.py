@@ -74,7 +74,7 @@ class RealRaum(callbacks.Plugin):
         Lets food happen (maybe).
         """
 
-        sender = irc.nick
+        sender = msg.nick
 
         text = "Hi,\n\n" + sender + \
             "at realraum wants some food! Wanna join in?\n\n"
@@ -110,6 +110,15 @@ class RealRaum(callbacks.Plugin):
         irc.reply("Yo nicoo, let tschunk happen! :)", prefixNick=False)
     tschunk = wrap(tschunk)
 
+    def sender(self, irc, msg, args):
+        """takes no arguments
+
+        Tell me the sender (can be fun!).
+        """
+
+        irc.reply("you are " + msg.nick + ", what did you expect?", prefixNick=False)
+
+    sender = wrap(sender)
 
 Class = RealRaum
 
