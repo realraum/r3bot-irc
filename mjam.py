@@ -6,7 +6,7 @@ from BeautifulSoup import BeautifulSoup
 
 class Mjam():
 
-    def __init__(self, url, cookies=None):
+    def __init__(self, url=None, cookies=None):
         self.session = requests.Session()
         self.url = url
         if cookies is not None:
