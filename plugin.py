@@ -54,7 +54,7 @@ class RealRaum(callbacks.Plugin):
     def __init__(self, irc):
         self.__parent = super(RealRaum, self)
         self.__parent.__init__(irc)
-        self.mjam = Mjam()
+        self.mjam = Mjam(None, None)
 
     def roomstatus(self, irc, msg, args):
         """takes no arguments
@@ -82,17 +82,23 @@ class RealRaum(callbacks.Plugin):
             "at realraum wants some food! Wanna join in?\n\n"
         text += "If so, check #realrauim @ OFTC"
 
+        restaurant_name = ""
+
         if url is None:
             url = ""
             irc.reply(
                 "let food happen! (please give people some time to reply ...)", prefixNick=False)
         else:
-            mjam.url = url
-            mjam.loadOrder()
-            restaurant_name = " from  " + mjam.getRestaurantName()
             text += ",\nor this link:" + url
             irc.reply(
                 "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
+
+            if "mjam.net" in url:
+                self.mjam.url = url
+                self.mjam.loadOrder()
+                restaurant_name = " from  " + self.mjam.getRestaurantName()
+
+
             url = " ---> " + url
 
         persons = ""
