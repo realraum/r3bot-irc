@@ -35,6 +35,7 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 import json
 import requests
+from mjam import Mjam
 
 try:
     from supybot.i18n import PluginInternationalization
@@ -53,6 +54,7 @@ class RealRaum(callbacks.Plugin):
     def __init__(self, irc):
         self.__parent = super(RealRaum, self)
         self.__parent.__init__(irc)
+        self.mjam = Mjam()
 
     def roomstatus(self, irc, msg, args):
         """takes no arguments
@@ -85,6 +87,9 @@ class RealRaum(callbacks.Plugin):
             irc.reply(
                 "let food happen! (please give people some time to reply ...)", prefixNick=False)
         else:
+            mjam.url = url
+            mjam.loadOrder()
+            restaurant_name = " from  " + mjam.getRestaurantName()
             text += ",\nor this link:" + url
             irc.reply(
                 "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
@@ -95,7 +100,7 @@ class RealRaum(callbacks.Plugin):
             if p != sender:
                 persons += p + ", "
 
-        irc.reply("Yo " + persons + "want some food?" + url, prefixNick=False)
+        irc.reply("Yo " + persons + "want some food" + restaurant_name + "? "  + url, prefixNick=False)
 
         text += " ...\n\nCheers, \nr3bot"
         print text
