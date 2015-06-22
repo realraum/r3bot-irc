@@ -49,6 +49,7 @@ except ImportError:
 class RealRaum(callbacks.Plugin):
 
     """realraum related IRC stuff"""
+
     threaded = True
 
     def __init__(self, irc):
@@ -71,19 +72,17 @@ class RealRaum(callbacks.Plugin):
     roomstatus = wrap(roomstatus)
 
     def food(self, irc, msg, args, url):
-        """[mjam url]
+        """[mjam.net url]
 
         Lets food happen (maybe).
         """
 
+        restaurant_name = ""
         sender = msg.nick
 
         text = "Hi,\n\n" + sender + \
             " at realraum wants some food! Wanna join in?\n\n"
         text += "If so, check #realrauim @ OFTC"
-
-        restaurant_name = ""
-
 
         if url is None:
             if self.mjam.url is not None:
@@ -92,20 +91,27 @@ class RealRaum(callbacks.Plugin):
                     return
                 else:
                     if not self.mjam.isOrderGone():
-                        irc.reply("Order already gone. ETA: " + self.mjam.loadOrderETA())
+                        # TODO: check if ETA already passed, if so: delete link
+                        irc.reply(
+                            "Order already submitted. ETA: " + self.mjam.loadOrderETA())
                     else:
+                        irc.reply(
+                            "Order already submitted. Care to start a new one?")
                         self.mjam.url = None
+                    return
             else:
                 url = ""
                 irc.reply(
                     "let food happen! (please give people some time to reply ...)", prefixNick=False)
+
         else:
             text += ",\nor this link: " + url
             irc.reply(
                 "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
 
             if "mjam.net" in url:
-                self.mjam.url = url.replace("https", "http") # quickfix for mjsam cert issues
+                # "quickfix" for mjam cert issues:
+                self.mjam.url = url.replace("https", "http")
                 self.mjam.loadOrder()
                 if not self.mjam.isOrderSubmitted() and not self.mjam.isOrderGone():
                     restaurant_name = " from  " + self.mjam.getRestaurantName()
@@ -121,10 +127,13 @@ class RealRaum(callbacks.Plugin):
             if p != sender:
                 persons += p + ", "
 
-        irc.reply("Yo " + persons + "want some food" + restaurant_name + "? "  + url, prefixNick=False)
+        irc.reply("Yo " + persons + "want some food" +
+                  restaurant_name + "? " + url, prefixNick=False)
 
         text += " ...\n\nCheers, \nr3bot"
         print text
+
+        # TODO: send 'text' via email to  self.registryValue('food.emails')
 
     food = wrap(food, [optional('httpUrl')])
 
@@ -143,7 +152,8 @@ class RealRaum(callbacks.Plugin):
         """
         irc.reply("NO! :( *sadPandaIsSad*", prefixNick=False)
 
-    ispetertheonealreadyrealraummember = wrap(isPeterTheOneAlreadyRealraumMember)
+    ispetertheonealreadyrealraummember = wrap(
+        isPeterTheOneAlreadyRealraumMember)
 
     def sender(self, irc, msg, args):
         """takes no arguments
@@ -151,7 +161,8 @@ class RealRaum(callbacks.Plugin):
         Tell me the sender (can be fun!).
         """
 
-        irc.reply("you are " + msg.nick + ", what did you expect?", prefixNick=False)
+        irc.reply(
+            "you are " + msg.nick + ", what did you expect?", prefixNick=False)
 
     sender = wrap(sender)
 
