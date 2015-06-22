@@ -79,25 +79,40 @@ class RealRaum(callbacks.Plugin):
         sender = msg.nick
 
         text = "Hi,\n\n" + sender + \
-            "at realraum wants some food! Wanna join in?\n\n"
+            " at realraum wants some food! Wanna join in?\n\n"
         text += "If so, check #realrauim @ OFTC"
 
         restaurant_name = ""
 
+
         if url is None:
-            url = ""
-            irc.reply(
-                "let food happen! (please give people some time to reply ...)", prefixNick=False)
+            if self.mjam.url is not None:
+                if not self.mjam.isOrderGone() and not self.mjam.isOrderSubmitted():
+                    irc.reply("ongoing food order: " + self.mjam.url)
+                    return
+                else:
+                    if not self.mjam.isOrderGone():
+                        irc.reply("Order already gone. ETA: " + self.mjam.loadOrderETA())
+                    else:
+                        self.mjam.url = None
+            else:
+                url = ""
+                irc.reply(
+                    "let food happen! (please give people some time to reply ...)", prefixNick=False)
         else:
-            text += ",\nor this link:" + url
+            text += ",\nor this link: " + url
             irc.reply(
                 "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
 
             if "mjam.net" in url:
-                self.mjam.url = url
+                self.mjam.url = url.replace("https", "http") # quickfix for mjsam cert issues
                 self.mjam.loadOrder()
-                restaurant_name = " from  " + self.mjam.getRestaurantName()
-
+                if not self.mjam.isOrderSubmitted() and not self.mjam.isOrderGone():
+                    restaurant_name = " from  " + self.mjam.getRestaurantName()
+                else:
+                    irc.reply("Sorry, order already gone ...")
+                    self.mjam.url = None
+                    return
 
             url = " ---> " + url
 
