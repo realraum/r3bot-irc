@@ -86,6 +86,7 @@ class RealRaum(callbacks.Plugin):
 
         if url is None:
             if self.mjam.url is not None:
+                self.mjam.loadOrder()
                 if not self.mjam.isOrderGone() and not self.mjam.isOrderSubmitted():
                     irc.reply("ongoing food order: " + self.mjam.url)
                     return
