@@ -84,7 +84,7 @@ class RealRaum(callbacks.Plugin):
 
         text = "Hi,\n\n" + sender + \
             " at realraum wants some food! Wanna join in?\n\n"
-        text += "If so, check #rearaum @ OFTC"
+        text += "If so, check #realraum @ OFTC"
 
         if url is None:
             if self.mjam.url is not None:
@@ -135,7 +135,7 @@ class RealRaum(callbacks.Plugin):
         irc.reply("Yo " + persons + "want some food" +
                   restaurant_name + "? " + url, prefixNick=False)
 
-        text += " ...\n\nCheers, \nr3bot"
+        text += " ...\n\nCheers, \n  r3bot"
         print text
 
         mail = R3Mail()
