@@ -35,7 +35,9 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 import json
 import requests
+
 from mjam import Mjam
+from mail import R3Mail
 
 try:
     from supybot.i18n import PluginInternationalization
@@ -82,7 +84,7 @@ class RealRaum(callbacks.Plugin):
 
         text = "Hi,\n\n" + sender + \
             " at realraum wants some food! Wanna join in?\n\n"
-        text += "If so, check #realrauim @ OFTC"
+        text += "If so, check #rearaum @ OFTC"
 
         if url is None:
             if self.mjam.url is not None:
@@ -125,6 +127,7 @@ class RealRaum(callbacks.Plugin):
         persons = ""
         for p in self.registryValue('food.listeners'):
             if p != sender:
+                # TODO: query only nicks who are online
                 persons += p + ", "
 
         irc.reply("Yo " + persons + "want some food" +
@@ -133,7 +136,8 @@ class RealRaum(callbacks.Plugin):
         text += " ...\n\nCheers, \nr3bot"
         print text
 
-        # TODO: send 'text' via email to  self.registryValue('food.emails')
+        mail = R3Mail()
+        mail.send('[realraum] Food?',  text, self.registryValue('food.emails'))
 
     food = wrap(food, [optional('httpUrl')])
 
