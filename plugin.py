@@ -92,6 +92,7 @@ class RealRaum(callbacks.Plugin):
                     return
                 else:
                     if not self.mjam.isOrderGone():
+                        self.mjam.getOrderNumer()
                         # TODO: check if ETA already passed, if so: delete link
                         irc.reply(
                             "Order already submitted. ETA: " + self.mjam.loadOrderETA())
