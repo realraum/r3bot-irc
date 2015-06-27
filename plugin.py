@@ -88,11 +88,13 @@ class RealRaum(callbacks.Plugin):
 
         if url is None:
             if self.mjam.url is not None:
+                self.mjam.loadOrder()
                 if not self.mjam.isOrderGone() and not self.mjam.isOrderSubmitted():
                     irc.reply("ongoing food order: " + self.mjam.url)
                     return
                 else:
                     if not self.mjam.isOrderGone():
+                        self.mjam.getOrderNumer()
                         # TODO: check if ETA already passed, if so: delete link
                         irc.reply(
                             "Order already submitted. ETA: " + self.mjam.loadOrderETA())
