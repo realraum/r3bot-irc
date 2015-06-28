@@ -13,8 +13,7 @@ python:
 install:
   - sudo pip install -r https://raw.githubusercontent.com/ProgVal/Limnoria/master/requirements.txt --upgrade
   - sudo pip install git+https://github.com/ProgVal/Limnoria.git@master --upgrade
-  - sudo pip install requests
-  - sudo pip install BeautifulSoup
+  - sudo pip install -r requirements.txt
 
 script:
   - echo $TRAVIS_PYTHON_VERSION
