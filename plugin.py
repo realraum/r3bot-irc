@@ -143,6 +143,31 @@ class RealRaum(callbacks.Plugin):
 
     food = wrap(food, [optional('httpUrl')])
 
+    def foodlisteners(self, irc, msg, args, register):
+        """takes register argument
+
+        register or unregister for food command
+        """
+        if register == 'register':
+            listeners = self.registryValue('food.listeners')
+            if msg.nick in listeners:
+                irc.reply("you are already registered!")
+            else:
+                listeners.append(msg.nick);
+                self.setRegistryValue('food.listeners', value=listeners)
+                irc.reply("you are registered!")
+        elif register == 'deregister' or register == 'unregister':
+            listeners = self.registryValue('food.listeners')
+            if msg.nick in listeners:
+                listeners.remove(msg.nick)
+                irc.reply("you are unregistered!")
+            else:
+                irc.reply("you were not registered.")
+        else:
+            irc.reply("please use register or unregister.", prefixNick=False)
+        
+    foodlisteners = wrap(foodlisteners, ['text'])
+
     def tschunk(self, irc, msg, args):
         """takes no arguments
 
