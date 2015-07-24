@@ -175,6 +175,14 @@ class RealRaum(callbacks.Plugin):
         """
         irc.reply("Yo nicoo, let tschunk happen! :)", prefixNick=False)
     tschunk = wrap(tschunk)
+    
+    def raspberryjuice(self, irc, msg, args):
+        """takes no arguments
+
+        I say disco, you say party!
+        """
+        irc.reply("Yo nicoo, let some raspberry juice happen! :)", prefixNick=False)
+    raspberryjuice = wrap(raspberryjuice)
 
     def isPeterTheOneAlreadyRealraumMember(self, irc, msg, args):
         """takes no arguments
