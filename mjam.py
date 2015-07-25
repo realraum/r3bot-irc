@@ -8,7 +8,7 @@ class Mjam():
 
     def __init__(self, url=None, cookies=None, verify=None):
         self.session = requests.Session()
-	self.session.verify = verify
+        self.session.verify = verify
         self.url = url
         if cookies is not None:
             self.session.cookies = requests.utils.cookiejar_from_dict(cookies)
