@@ -30,8 +30,9 @@ class Mjam():
         if node is None:
             print "cannot find restaurant name ..."
             return "Mjam"
-        self.restaurant_name = node.text
-        return self.restaurant_name
+        else:
+            self.restaurant_name = node.text
+            return self.restaurant_name
 
     def getOrderNumer(self):
         parsed_html = BeautifulSoup(self.index.text)
