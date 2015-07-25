@@ -118,7 +118,7 @@ class RealRaum(callbacks.Plugin):
                 self.mjam.url = url.replace("https", "http")
                 self.mjam.loadOrder()
                 if not self.mjam.isOrderSubmitted() and not self.mjam.isOrderGone():
-                    restaurant_name = " from  " + self.mjam.getRestaurantName()
+                    restaurant_name = " from " + self.mjam.getRestaurantName()
                 else:
                     irc.reply("Sorry, order already gone ...")
                     self.mjam.url = None
@@ -165,7 +165,7 @@ class RealRaum(callbacks.Plugin):
                 irc.reply("you were not registered.")
         else:
             irc.reply("please use register or unregister.", prefixNick=False)
-        
+
     foodlisteners = wrap(foodlisteners, ['text'])
 
     def tschunk(self, irc, msg, args):
@@ -175,7 +175,7 @@ class RealRaum(callbacks.Plugin):
         """
         irc.reply("Yo nicoo, let tschunk happen! :)", prefixNick=False)
     tschunk = wrap(tschunk)
-    
+
     def raspberryjuice(self, irc, msg, args):
         """takes no arguments
 
