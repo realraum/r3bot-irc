@@ -26,9 +26,9 @@ class Mjam():
 
     def getRestaurantName(self):
         parsed_html = BeautifulSoup(self.index.text)
-        bodyNode = parsed_html.body
         self.restaurant_name = "Mjam"
-        if parsed_html.body is not None:
+        bodyNode = parsed_html.body
+        if bodyNode is not None:
             nameNode = bodyNode.find('h1', attrs={'property': 'name'})
             if nameNode is not None:
                 self.restaurant_name = nameNode.text
