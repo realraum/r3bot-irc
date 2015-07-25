@@ -27,7 +27,7 @@ class Mjam():
     def getRestaurantName(self):
         parsed_html = BeautifulSoup(self.index.text)
         self.restaurant_name = parsed_html.body.find(
-            'h1', attrs={'property': 'v:name'}).text
+            'h1', attrs={'property': 'name'}).text
         return self.restaurant_name
 
     def getOrderNumer(self):
