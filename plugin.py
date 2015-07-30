@@ -189,7 +189,7 @@ class RealRaum(callbacks.Plugin):
 
         Tell me!
         """
-        irc.reply("NO! :( *sadPandaIsSad*", prefixNick=False)
+        irc.reply("YES! What a dumb question ...", prefixNick=False)
 
     ispetertheonealreadyrealraummember = wrap(
         isPeterTheOneAlreadyRealraumMember)
