@@ -73,6 +73,17 @@ class RealRaum(callbacks.Plugin):
         irc.reply(status)
     roomstatus = wrap(roomstatus)
 
+    def foodreset(self, irc, msg, args):
+        """takes no arguments
+
+        Reset an ongoing order.
+        """
+
+        self.mjam.url = None
+
+        irc.reply("Ok, done!")
+    foodreset = wrap(foodreset)
+
     def food(self, irc, msg, args, url):
         """[mjam.net url]
 
@@ -153,7 +164,7 @@ class RealRaum(callbacks.Plugin):
             if msg.nick in listeners:
                 irc.reply("you are already registered!")
             else:
-                listeners.append(msg.nick);
+                listeners.append(msg.nick)
                 self.setRegistryValue('food.listeners', value=listeners)
                 irc.reply("you are registered!")
         elif register == 'deregister' or register == 'unregister':
@@ -181,7 +192,8 @@ class RealRaum(callbacks.Plugin):
 
         I say disco, you say party!
         """
-        irc.reply("Yo nicoo, let some raspberry juice happen! :)", prefixNick=False)
+        irc.reply("Yo nicoo, let some raspberry juice happen! :)",
+                  prefixNick=False)
     raspberryjuice = wrap(raspberryjuice)
 
     def isPeterTheOneAlreadyRealraumMember(self, irc, msg, args):
