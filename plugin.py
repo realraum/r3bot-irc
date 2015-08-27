@@ -35,6 +35,7 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 import json
 import requests
+import time
 
 from mjam import Mjam
 from mail import R3Mail
@@ -58,6 +59,7 @@ class RealRaum(callbacks.Plugin):
         self.__parent = super(RealRaum, self)
         self.__parent.__init__(irc)
         self.mjam = Mjam(None, None)
+        self.orderedAt = 0
 
     def roomstatus(self, irc, msg, args):
         """takes no arguments
@@ -98,7 +100,7 @@ class RealRaum(callbacks.Plugin):
         text += "If so, check #realraum @ OFTC"
 
         if url is None:
-            if self.mjam.url is not None:
+            if self.mjam.url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
                 self.mjam.loadOrder()
                 if not self.mjam.isOrderGone() and not self.mjam.isOrderSubmitted():
                     irc.reply("ongoing food order: " + self.mjam.url)
@@ -116,6 +118,7 @@ class RealRaum(callbacks.Plugin):
                     return
             else:
                 url = ""
+                self.mjam.url = None
                 irc.reply(
                     "let food happen! (please give people some time to reply ...)", prefixNick=False)
 
@@ -130,6 +133,7 @@ class RealRaum(callbacks.Plugin):
                 self.mjam.loadOrder()
                 if not self.mjam.isOrderSubmitted() and not self.mjam.isOrderGone():
                     restaurant_name = " from " + self.mjam.getRestaurantName()
+                    self.orderedAt = time.time()
                 else:
                     irc.reply("Sorry, order already gone ...")
                     self.mjam.url = None
