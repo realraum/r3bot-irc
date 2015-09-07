@@ -51,5 +51,8 @@ class Mjam():
         orderstatus = json.loads(orderstatus_resp.text)
         m = re.search(
             '.*sollte um (.*) ankommen.$', orderstatus['short_description'])
-        self.order_eta = m.group(1)
-        return self.order_eta
+        if m is not None:
+            self.order_eta = m.group(1)
+            return self.order_eta
+        else:
+            return 'not loaded yet'
