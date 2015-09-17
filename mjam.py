@@ -25,7 +25,7 @@ class Mjam():
         return self.index.status_code == 403
 
     def getRestaurantName(self):
-        parsed_html = BeautifulSoup(self.index.text)
+        parsed_html = BeautifulSoup(self.index.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
         self.restaurant_name = "Mjam"
         bodyNode = parsed_html.body
         if bodyNode is not None:
