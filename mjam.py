@@ -56,3 +56,38 @@ class Mjam():
             return self.order_eta
         else:
             return 'not loaded yet'
+
+    def loadOrderItems(self):
+        items_url = "https://www.mjam.net/ajax/restaurant/graz/mampf/cart/getDeltas/"
+        items_resp = self.session.post(url=items_url)
+        items = json.loads(items_resp.text)
+
+        meta          = items['meta']
+        waiting_for = meta['waiting_for']
+
+        tmp_orderer = dict()
+        orders = dict()
+        for changeset in items['changesets']:
+            message = changeset['message']
+            action     = message['action']
+            sid          = message['session_key']
+            data       = message['data']
+
+            if action == 'cartRename':
+                if sid in tmp_orderer:
+                    print "ERROR???"
+                else:
+                    tmp_orderer[sid] = data['name']
+            elif action == 'itemQuantity':
+                item = data['item']
+                if sid in orders:
+                    orders[sid].append(item['name'])
+                else:
+                    orders[sid] = [item['name']]
+
+        for orderer in tmp_orderer:
+            orderer_name = tmp_orderer[orderer]
+            orders[orderer_name] = orders.pop(orderer)
+
+        return orders, waiting_for
+
