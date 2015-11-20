@@ -142,7 +142,7 @@ class RealRaum(callbacks.Plugin):
             url = " ---> " + url
 
         persons = ""
-        for p in self. yValue('food.listeners', channel):
+        for p in self.registryValue('food.listeners', channel):
             if p != sender:
                 # TODO: query only nicks who are online
                 persons += p + ", "
