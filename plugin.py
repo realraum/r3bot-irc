@@ -154,7 +154,7 @@ class RealRaum(callbacks.Plugin):
         print text
 
         mail = R3Mail()
-        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '' and length(self.registryValue('food.emails', channel)) != 0:
+        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '' and len(self.registryValue('food.emails', channel)) != 0:
             print 'sending mail to', self.registryValue('food.emails', channel)
             mail.send('[r3bot] Food?',  text, self.registryValue('food.emails', channel))
 
