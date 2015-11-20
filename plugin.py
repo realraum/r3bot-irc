@@ -142,7 +142,7 @@ class RealRaum(callbacks.Plugin):
             url = " ---> " + url
 
         persons = ""
-        for p in self.registryValue('food.listeners', channel):
+        for p in self. yValue('food.listeners', channel):
             if p != sender:
                 # TODO: query only nicks who are online
                 persons += p + ", "
@@ -154,7 +154,8 @@ class RealRaum(callbacks.Plugin):
         print text
 
         mail = R3Mail()
-        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '':
+        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '' and length(self.registryValue('food.emails', channel)) != 0:
+            print 'sending mail to', self.registryValue('food.emails', channel)
             mail.send('[r3bot] Food?',  text, self.registryValue('food.emails', channel))
 
     food = wrap(food, [optional('httpUrl')])
