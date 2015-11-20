@@ -92,12 +92,12 @@ class RealRaum(callbacks.Plugin):
         Lets food happen (maybe).
         """
 
+        channel = msg.args[0]
         restaurant_name = ""
         sender = msg.nick
 
-        text = "Hi,\n\n" + sender + \
-            " at realraum wants some food! Wanna join in?\n\n"
-        text += "If so, check #realraum @ OFTC"
+        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (sender, channel)
+        text += "If so, check %s @ OFTC" % (channel)
 
         if url is None:
             if self.mjam.url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
@@ -142,7 +142,7 @@ class RealRaum(callbacks.Plugin):
             url = " ---> " + url
 
         persons = ""
-        for p in self.registryValue('food.listeners'):
+        for p in self.registryValue('food.listeners', channel):
             if p != sender:
                 # TODO: query only nicks who are online
                 persons += p + ", "
@@ -154,7 +154,9 @@ class RealRaum(callbacks.Plugin):
         print text
 
         mail = R3Mail()
-        mail.send('[realraum] Food?',  text, self.registryValue('food.emails'))
+        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '' and len(self.registryValue('food.emails', channel)) != 0:
+            print 'sending mail to', self.registryValue('food.emails', channel)
+            mail.send('[r3bot] Food?',  text, self.registryValue('food.emails', channel))
 
     food = wrap(food, [optional('httpUrl')])
 
@@ -163,16 +165,19 @@ class RealRaum(callbacks.Plugin):
 
         register or unregister for food command
         """
+
+        channel = msg.args[0]
+
         if register == 'register':
-            listeners = self.registryValue('food.listeners')
+            listeners = self.registryValue('food.listeners', channel)
             if msg.nick in listeners:
                 irc.reply("you are already registered!")
             else:
                 listeners.append(msg.nick)
-                self.setRegistryValue('food.listeners', value=listeners)
+                self.setRegistryValue('food.listeners', value=listeners, channel=channel)
                 irc.reply("you are registered!")
         elif register == 'deregister' or register == 'unregister':
-            listeners = self.registryValue('food.listeners')
+            listeners = self.registryValue('food.listeners', channel)
             if msg.nick in listeners:
                 listeners.remove(msg.nick)
                 irc.reply("you are unregistered!")

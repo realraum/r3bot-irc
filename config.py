@@ -55,11 +55,11 @@ RealRaum = conf.registerPlugin('RealRaum')
 
 conf.registerGroup(RealRaum, 'food')
 
-conf.registerGlobalValue(RealRaum.food, 'listeners',
+conf.registerChannelValue(RealRaum.food, 'listeners',
                          registry.SpaceSeparatedListOfStrings('', """List of irc nicks
                                                  who want to be notified."""))
 
-conf.registerGlobalValue(RealRaum.food, 'emails',
+conf.registerChannelValue(RealRaum.food, 'emails',
                          registry.SpaceSeparatedListOfStrings('', """List of email addresses
                                                  who want to be notified."""))
 
