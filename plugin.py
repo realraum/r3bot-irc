@@ -96,8 +96,8 @@ class RealRaum(callbacks.Plugin):
         restaurant_name = ""
         sender = msg.nick
 
-        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (sender, channel, channel)
-        text += "If so, check #%s @ OFTC"
+        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (sender, channel)
+        text += "If so, check #%s @ OFTC" % (channel)
 
         if url is None:
             if self.mjam.url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
