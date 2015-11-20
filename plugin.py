@@ -92,12 +92,12 @@ class RealRaum(callbacks.Plugin):
         Lets food happen (maybe).
         """
 
+        channel = msg.args[0]
         restaurant_name = ""
         sender = msg.nick
 
-        text = "Hi,\n\n" + sender + \
-            " at realraum wants some food! Wanna join in?\n\n"
-        text += "If so, check #realraum @ OFTC"
+        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (sender, channel, channel)
+        text += "If so, check #%s @ OFTC"
 
         if url is None:
             if self.mjam.url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
@@ -154,7 +154,7 @@ class RealRaum(callbacks.Plugin):
         print text
 
         mail = R3Mail()
-        mail.send('[realraum] Food?',  text, self.registryValue('food.emails'))
+        mail.send('[r3bot] Food?',  text, self.registryValue('food.emails'))
 
     food = wrap(food, [optional('httpUrl')])
 
