@@ -18,7 +18,7 @@ install:
 script:
   - echo $TRAVIS_PYTHON_VERSION
   - cd ..
-  - mv Limnoria-RealRaum RealRaum
+  - mv r3bot-irc RealRaum
   - supybot-test RealRaum # --no-network --disable-multiprocessing
 
 notifications:
