@@ -25,7 +25,9 @@ class Mjam():
         return self.index.status_code == 403
 
     def getRestaurantName(self):
-        parsed_html = BeautifulSoup(self.index.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
+        parsed_html = BeautifulSoup(
+            self.index.text,
+            convertEntities=BeautifulSoup.HTML_ENTITIES)
         self.restaurant_name = "Mjam"
         bodyNode = parsed_html.body
         if bodyNode is not None:
@@ -62,16 +64,16 @@ class Mjam():
         items_resp = self.session.post(url=items_url)
         items = json.loads(items_resp.text)
 
-        meta          = items['meta']
+        meta = items['meta']
         waiting_for = meta['waiting_for']
 
         tmp_orderer = dict()
         orders = dict()
         for changeset in items['changesets']:
             message = changeset['message']
-            action     = message['action']
-            sid          = message['session_key']
-            data       = message['data']
+            action = message['action']
+            sid = message['session_key']
+            data = message['data']
 
             if action == 'cartRename':
                 if sid in tmp_orderer:
@@ -90,4 +92,3 @@ class Mjam():
             orders[orderer_name] = orders.pop(orderer)
 
         return orders, waiting_for
-

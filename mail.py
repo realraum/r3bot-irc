@@ -7,7 +7,8 @@ from mailconfig import *
 
 class R3Mail():
 
-    def send(self, subject, text, to_emails, from_name='r3bot', from_email='r3bot-no-reply@chaos-at-home.org'):
+    def send(self, subject, text, to_emails, from_name='r3bot',
+             from_email='r3bot-no-reply@chaos-at-home.org'):
         msg = MIMEText(text)
         msg.set_unixfrom('author')
         #msg['To'] = email.utils.formataddr(('Recipient', to_emails))
