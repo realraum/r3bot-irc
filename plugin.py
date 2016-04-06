@@ -147,7 +147,7 @@ class RealRaum(callbacks.Plugin):
 
         plist = filter(
             self.registryValue('food.listeners', channel),
-            lambda x: x != sender && x in irc.state.channels[channel].users
+            lambda x: x != sender and x in irc.state.channels[channel].users
         )
         persons = ", ".join(plist) + ", "
 
