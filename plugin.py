@@ -145,11 +145,11 @@ class RealRaum(callbacks.Plugin):
 
             url = " ---> " + url
 
-        persons = ""
-        for p in self.registryValue('food.listeners', channel):
-            if p != sender:
-                # TODO: query only nicks who are online
-                persons += p + ", "
+        plist = filter(
+            self.registryValue('food.listeners', channel),
+            lambda x: x != sender and x in irc.state.channels[channel].users
+        )
+        persons = ", ".join(plist) + ", "
 
         irc.reply("Yo " + persons + "want some food" +
                   restaurant_name + "? " + url, prefixNick=False)
