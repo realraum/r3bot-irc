@@ -146,8 +146,8 @@ class RealRaum(callbacks.Plugin):
             url = " ---> " + url
 
         plist = filter(
-            self.registryValue('food.listeners', channel),
-            lambda x: x != sender and x in irc.state.channels[channel].users
+            lambda x: x != sender and x in irc.state.channels[channel].users,
+            self.registryValue('food.listeners', channel)
         )
         persons = ", ".join(plist) + ", "
 
