@@ -96,7 +96,8 @@ class RealRaum(callbacks.Plugin):
         restaurant_name = ""
         sender = msg.nick
 
-        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (sender, channel)
+        text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (
+            sender, channel)
         text += "If so, check %s @ OFTC" % (channel)
 
         if url is None:
@@ -110,7 +111,8 @@ class RealRaum(callbacks.Plugin):
                         self.mjam.getOrderNumer()
                         # TODO: check if ETA already passed, if so: delete link
                         irc.reply(
-                            "Order already submitted. ETA: " + self.mjam.loadOrderETA())
+                            "Order already submitted. ETA: " +
+                            self.mjam.loadOrderETA())
                     else:
                         irc.reply(
                             "Order already submitted. Care to start a new one?")
@@ -120,12 +122,14 @@ class RealRaum(callbacks.Plugin):
                 url = ""
                 self.mjam.url = None
                 irc.reply(
-                    "let food happen! (please give people some time to reply ...)", prefixNick=False)
+                    "let food happen! (please give people some time to reply ...)",
+                    prefixNick=False)
 
         else:
             text += ",\nor this link: " + url
             irc.reply(
-                "thanks for the link, now let food happen! (please give people some time to reply ...)", prefixNick=False)
+                "thanks for the link, now let food happen! (please give people some time to reply ...)",
+                prefixNick=False)
 
             if "mjam.net" in url:
                 # "quickfix" for mjam cert issues:
@@ -141,11 +145,11 @@ class RealRaum(callbacks.Plugin):
 
             url = " ---> " + url
 
-        persons = ""
-        for p in self.registryValue('food.listeners', channel):
-            if p != sender:
-                # TODO: query only nicks who are online
-                persons += p + ", "
+        plist = filter(
+            lambda x: x != sender and x in irc.state.channels[channel].users,
+            self.registryValue('food.listeners', channel)
+        )
+        persons = ", ".join(plist) + ", "
 
         irc.reply("Yo " + persons + "want some food" +
                   restaurant_name + "? " + url, prefixNick=False)
@@ -154,9 +158,21 @@ class RealRaum(callbacks.Plugin):
         print text
 
         mail = R3Mail()
-        if self.registryValue('food.emails', channel) is not None and self.registryValue('food.emails', channel) is not '' and len(self.registryValue('food.emails', channel)) != 0:
+        if self.registryValue(
+            'food.emails',
+            channel) is not None and self.registryValue(
+            'food.emails',
+            channel) is not '' and len(
+            self.registryValue(
+                'food.emails',
+                channel)) != 0:
             print 'sending mail to', self.registryValue('food.emails', channel)
-            mail.send('[r3bot] Food?',  text, self.registryValue('food.emails', channel))
+            mail.send(
+                '[r3bot] Food?',
+                text,
+                self.registryValue(
+                    'food.emails',
+                    channel))
 
     food = wrap(food, [optional('httpUrl')])
 
@@ -174,7 +190,8 @@ class RealRaum(callbacks.Plugin):
                 irc.reply("you are already registered!")
             else:
                 listeners.append(msg.nick)
-                self.setRegistryValue('food.listeners', value=listeners, channel=channel)
+                self.setRegistryValue(
+                    'food.listeners', value=listeners, channel=channel)
                 irc.reply("you are registered!")
         elif register == 'deregister' or register == 'unregister':
             listeners = self.registryValue('food.listeners', channel)

@@ -56,11 +56,11 @@ RealRaum = conf.registerPlugin('RealRaum')
 conf.registerGroup(RealRaum, 'food')
 
 conf.registerChannelValue(RealRaum.food, 'listeners',
-                         registry.SpaceSeparatedListOfStrings('', """List of irc nicks
+                          registry.SpaceSeparatedListOfStrings('', """List of irc nicks
                                                  who want to be notified."""))
 
 conf.registerChannelValue(RealRaum.food, 'emails',
-                         registry.SpaceSeparatedListOfStrings('', """List of email addresses
+                          registry.SpaceSeparatedListOfStrings('', """List of email addresses
                                                  who want to be notified."""))
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

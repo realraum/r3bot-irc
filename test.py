@@ -65,18 +65,30 @@ class RealRaumTestCase(PluginTestCase):
         listenersBefore = conf.supybot.plugins.RealRaum.food.listeners()[:]
         self.assertRegexp('foodlisteners register', '.*you are registered!')
         listenersAfter = conf.supybot.plugins.RealRaum.food.listeners()[:]
-        self.failIf(listenersBefore == listenersAfter, 'failed to add nick to listeners')
+        self.failIf(
+            listenersBefore == listenersAfter,
+            'failed to add nick to listeners')
 
-        self.assertRegexp('foodlisteners register', '.*you are already registered!')
+        self.assertRegexp(
+            'foodlisteners register',
+            '.*you are already registered!')
 
     def testFoodlistenersUnregister(self):
         self.assertNotError('foodlisteners register')
-        self.assertRegexp('foodlisteners unregister', '.*you are unregistered!')
+        self.assertRegexp(
+            'foodlisteners unregister',
+            '.*you are unregistered!')
         self.assertNotError('foodlisteners register')
-        self.assertRegexp('foodlisteners deregister', '.*you are unregistered!')
+        self.assertRegexp(
+            'foodlisteners deregister',
+            '.*you are unregistered!')
 
-        self.assertRegexp('foodlisteners unregister', '.*you were not registered.')
-        self.assertRegexp('foodlisteners deregister', '.*you were not registered.')
+        self.assertRegexp(
+            'foodlisteners unregister',
+            '.*you were not registered.')
+        self.assertRegexp(
+            'foodlisteners deregister',
+            '.*you were not registered.')
 
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
