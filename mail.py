@@ -7,10 +7,17 @@ from mailconfig import *
 
 class R3Mail():
 
-    def send(self, subject, text, to_emails, from_name='r3bot', from_email='r3bot@more.systems'):
+    def send(
+            self,
+            subject,
+            text,
+            to_emails,
+            from_name='r3bot',
+            from_email='r3bot@more.systems'):
         msg = MIMEText(text)
         msg.set_unixfrom('author')
-        #msg['To'] = email.utils.formataddr(('Recipient', to_emails))
+        msg['To'] = email.utils.formataddr(
+            ('HungryHacker', 'devnull@realraum.at'))
         msg['From'] = email.utils.formataddr((from_name, from_email))
         msg['Subject'] = subject
 
@@ -39,3 +46,12 @@ class R3Mail():
             server.sendmail(from_email, to_emails, msg.as_string())
         finally:
             server.quit()
+
+if __name__ == '__main__':
+    mail = R3Mail()
+    print('sending testmail ...')
+    mail.send(
+        'Test Mail',
+        'This is a test mail from r3bot\'s mail client!',
+        ['dev+r3bot@2904.cc'])
+    print('done!')
