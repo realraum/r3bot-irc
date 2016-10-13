@@ -37,7 +37,6 @@ import json
 import requests
 import time
 
-from mjam import Mjam
 from mail import R3Mail
 
 try:
@@ -58,7 +57,6 @@ class RealRaum(callbacks.Plugin):
     def __init__(self, irc):
         self.__parent = super(RealRaum, self)
         self.__parent.__init__(irc)
-        self.mjam = Mjam(None, None)
         self.orderedAt = 0
 
     def roomstatus(self, irc, msg, args):
@@ -81,7 +79,7 @@ class RealRaum(callbacks.Plugin):
         Reset an ongoing order.
         """
 
-        self.mjam.url = None
+        self.mjam_url = None
 
         irc.reply("Ok, done!")
     foodreset = wrap(foodreset)
@@ -100,51 +98,28 @@ class RealRaum(callbacks.Plugin):
             sender, channel)
         text += "If so, check %s @ OFTC" % (channel)
 
-        if url is None:
-            if self.mjam.url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
-                self.mjam.loadOrder()
-                if not self.mjam.isOrderGone() and not self.mjam.isOrderSubmitted():
-                    irc.reply("ongoing food order: " + self.mjam.url)
-                    return
-                else:
-                    if not self.mjam.isOrderGone():
-                        self.mjam.getOrderNumer()
-                        # TODO: check if ETA already passed, if so: delete link
-                        irc.reply(
-                            "Order already submitted. ETA: " +
-                            self.mjam.loadOrderETA())
-                    else:
-                        irc.reply(
-                            "Order already submitted. Care to start a new one?")
-                        self.mjam.url = None
-                    return
+        if url is None or not url.startswith('http'):
+            # no url given:
+            if self.mjam_url is not None and time.time() - self.orderedAt < 60 * 60 * 2:
+                # no url given and old order not old enough:
+                irc.reply("ongoing food order: " + self.mjam_url)
+                return
             else:
-                url = ""
-                self.mjam.url = None
+                # no url given and old order already old:
+                self.mjam_url = None
                 irc.reply(
                     "let food happen! (please give people some time to reply ...)",
                     prefixNick=False)
-
         else:
+            # url given:
             text += ",\nor this link: " + url
             irc.reply(
                 "thanks for the link, now let food happen! (please give people some time to reply ...)",
                 prefixNick=False)
+            self.mjam_url = url
+            self.orderedAt = time.time()
 
-            if "mjam.net" in url:
-                # "quickfix" for mjam cert issues:
-                self.mjam.url = url.replace("https", "http")
-                self.mjam.loadOrder()
-                if not self.mjam.isOrderSubmitted() and not self.mjam.isOrderGone():
-                    restaurant_name = " from " + self.mjam.getRestaurantName()
-                    self.orderedAt = time.time()
-                else:
-                    irc.reply("Sorry, order already gone ...")
-                    self.mjam.url = None
-                    return
-
-            url = " ---> " + url
-
+        # regardless of url or no url, poke people now:
         plist = filter(
             lambda x: x != sender and x in irc.state.channels[channel].users,
             self.registryValue('food.listeners', channel)
@@ -174,7 +149,7 @@ class RealRaum(callbacks.Plugin):
                     'food.emails',
                     channel))
 
-    food = wrap(food, [optional('httpUrl')])
+    food = wrap(food, [optional('anything')])
 
     def foodlisteners(self, irc, msg, args, register):
         """takes register argument
