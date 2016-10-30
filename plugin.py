@@ -58,6 +58,7 @@ class RealRaum(callbacks.Plugin):
         self.__parent = super(RealRaum, self)
         self.__parent.__init__(irc)
         self.orderedAt = 0
+        self.mjam_url = None
 
     def roomstatus(self, irc, msg, args):
         """takes no arguments
