@@ -91,7 +91,6 @@ class RealRaum(callbacks.Plugin):
         """
 
         channel = msg.args[0]
-        restaurant_name = ""
         sender = msg.nick
 
         text = "Hi,\n\n %s at %s wants some food! Wanna join in?\n\n" % (
@@ -126,8 +125,7 @@ class RealRaum(callbacks.Plugin):
         )
         persons = ", ".join(plist) + ", "
 
-        irc.reply("Yo " + persons + "want some food" +
-                  restaurant_name + "? " + url, prefixNick=False)
+        irc.reply("Yo " + persons + "want some food? " + url, prefixNick=False)
 
         text += " ...\n\nCheers, \n  r3bot"
         print text
