@@ -106,6 +106,7 @@ class RealRaum(callbacks.Plugin):
             else:
                 # no url given and old order already old:
                 self.mjam_url = None
+                url = ''
                 irc.reply(
                     "let food happen! (please give people some time to reply ...)",
                     prefixNick=False)
