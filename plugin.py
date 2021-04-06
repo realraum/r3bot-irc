@@ -37,7 +37,7 @@ import json
 import requests
 import time
 
-from mail import R3Mail
+from .mail import R3Mail
 
 try:
     from supybot.i18n import PluginInternationalization

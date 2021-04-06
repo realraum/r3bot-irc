@@ -2,7 +2,7 @@ import smtplib
 import email.utils
 from email.mime.text import MIMEText
 
-from mailconfig import *
+from .mailconfig import *
 
 
 class R3Mail():
