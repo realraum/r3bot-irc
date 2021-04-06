@@ -130,7 +130,7 @@ class RealRaum(callbacks.Plugin):
         irc.reply("Yo " + persons + "want some food? " + url, prefixNick=False)
 
         text += " ...\n\nCheers, \n  r3bot"
-        print text
+        print(text)
 
         mail = R3Mail()
         if self.registryValue(
@@ -141,7 +141,7 @@ class RealRaum(callbacks.Plugin):
             self.registryValue(
                 'food.emails',
                 channel)) != 0:
-            print 'sending mail to', self.registryValue('food.emails', channel)
+            print('sending mail to', self.registryValue('food.emails', channel))
             mail.send(
                 '[r3bot] Food?',
                 text,

@@ -30,14 +30,14 @@ class R3Mail():
 
             # check for STARTTLS
             if server.has_extn('STARTTLS'):
-                print "## STARTTLS! :)"
+                print("## STARTTLS! :)")
                 server.starttls()
                 server.ehlo()  # re-identify ourselves over TLS connection
             else:
-                print "## no STARTTLS!? fail."
+                print("## no STARTTLS!? fail.")
                 exit()
 
-            # print "logging in with", SMTP_USER, ':', SMTP_PASSWORD
+            # print("logging in with", SMTP_USER, ':', SMTP_PASSWORD)
 
             # Pretend the SMTP server supports some forms of authentication.
             server.esmtp_features['auth'] = 'PLAIN'
